@@ -2815,6 +2815,18 @@ void RegisterContribSchemas() {
   ONNX_CONTRIB_OPERATOR_SCHEMA_ELSEWHERE(AttnLSTM, RegisterAttnLSTMContribOpSchema);
   ONNX_CONTRIB_OPERATOR_SCHEMA_ELSEWHERE(Range, RegisterRangeOpSchema);
 
+  ONNX_CONTRIB_OPERATOR_SCHEMA(FlashAttention)
+      .SetDomain(kOnnxDomain)
+      .SinceVersion(1)
+      .SetSupportLevel(OpSchema::SupportType::EXPERIMENTAL)
+      .SetDoc("FlashAttention")
+      .Attr("num_heads",
+            "The number of attention heads",
+            AttributeProto::INT, static_cast<int32_t>(-1))
+      .Attr("head_dim",
+            "The width of each individual head",
+            AttributeProto::INT, static_cast<int32_t>(-1))
+
   ONNX_CONTRIB_OPERATOR_SCHEMA(LayerNormalization)
       .SetDomain(kOnnxDomain)
       .SinceVersion(1)
