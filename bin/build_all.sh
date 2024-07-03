@@ -2,4 +2,4 @@
 
 ./tools/scripts/compile_triton_kernels.sh
 
-docker-compose -f docker-compose.yml up -d --build --remove-orphans --wait
+sudo docker compose -f docker-compose.yml up -d --build --remove-orphans --wait

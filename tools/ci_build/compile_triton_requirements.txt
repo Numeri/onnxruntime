@@ -1,3 +1,4 @@
 psutil
 triton
 torch
+numpy

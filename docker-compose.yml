@@ -6,6 +6,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/Dockerfile.cuda
-      volumes:
-        - ./test:/test
-      restart: always
+    volumes:
+      - ./test:/test
+    command: tail -f /dev/null
