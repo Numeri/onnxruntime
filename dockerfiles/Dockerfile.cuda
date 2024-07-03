@@ -22,3 +22,5 @@ COPY --from=0 /code/build/Linux/Release/dist /root
 COPY --from=0 /code/dockerfiles/LICENSE-IMAGE.txt /code/LICENSE-IMAGE.txt
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends libstdc++6 ca-certificates python3-setuptools python3-wheel python3-pip unattended-upgrades && unattended-upgrade && python3 -m pip install /root/*.whl
+COPY tools/ci_build/github/linux/docker/inference/x64/python/cpu/scripts/requirements.txt ./
+RUN  python3 -m pip install -r requirements.txt
