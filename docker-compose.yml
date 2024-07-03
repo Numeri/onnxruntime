@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  onnxruntime_cuda:
+    image: onnxruntime_cuda
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.cuda
+      volumes:
+        - ./test:/test
+      restart: always
