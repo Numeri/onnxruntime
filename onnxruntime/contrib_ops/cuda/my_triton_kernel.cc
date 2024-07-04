@@ -52,21 +52,29 @@ MyTritonKernel<T>::MyTritonKernel(const OpKernelInfo& info) : CudaKernel{info} {
 template <typename T>
 Status MyTritonKernel<T>::ComputeInternal(OpKernelContext* ctx) const {
   const Tensor* X = ctx->Input<Tensor>(0);
+  ORT_RETURN_IF_NOT(X != nullptr, "Input tensor X is null");
+
   const TensorShape& X_shape = X->Shape();
+  ORT_RETURN_IF_NOT(X_shape.NumDimensions() > 0, "Input tensor X has invalid shape");
+
   Tensor* Y = ctx->Output(0, X_shape);
+  ORT_RETURN_IF_NOT(Y != nullptr, "Failed to create output tensor Y");
+
 
   std::string function_name = GetMyTritonFunctionName<T>(block_size);
   int64_t grid_size = (X_shape[0] + block_size - 1) / block_size;
   cudaStream_t stream = Stream(ctx);
 
-  struct {
-    void* output_ptr;
-    const void* input_ptr;
-    int32_t input_size_;
+  int64_t actual_input_size = X_shape.Size();
+
+  struct KernelArgs {
+     T* output_ptr;
+     const T* input_ptr;
+     int32_t input_size;
   } args = {
-    reinterpret_cast<void*>(Y),
-    reinterpret_cast<const void*>(X),
-    static_cast<int32_t>(input_size),
+     Y->MutableData<T>(),
+     X->Data<T>(),
+     static_cast<int32_t>(actual_input_size),
   };
 
   return onnxruntime::cuda::LaunchTritonKernel(stream, function_name, grid_size, 1, 1, &args, sizeof(args));
