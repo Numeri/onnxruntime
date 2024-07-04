@@ -14,10 +14,10 @@ providers = [
 session = ort.InferenceSession('test_model.onnx', providers=providers)
 
 X = np.random.rand(10).astype(np.float16)
-
+print(f"X = {X}")
 output_names = ["Y"]
 
-use_iobinding = True
+use_iobinding = False 
 
 if use_iobinding:
     binding = session.io_binding()
@@ -42,3 +42,4 @@ else:
         for name, output
         in zip(output_names, session.run(output_names, inputs))
     }
+print(results)
