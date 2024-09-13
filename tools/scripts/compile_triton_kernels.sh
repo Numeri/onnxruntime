@@ -10,6 +10,7 @@ mkdir -p "${OUT_DIR}"
 # List of Triton kernel scripts
 TRITON_KERNEL_SCRIPTS=(
   "onnxruntime/contrib_ops/cuda/my_triton_kernel.py"
+  "onnxruntime/contrib_ops/cuda/flash_attention_triton.py"
 )
 
 python3 -m venv "${REPO_ROOT}/triton_env"

@@ -179,6 +179,8 @@ class ONNX_OPERATOR_KERNEL_CLASS_NAME(kCudaExecutionProvider, kPytorchAtenDomain
 #ifdef USE_TRITON_KERNEL
 class CUDA_MS_OP_TYPED_CLASS_NAME(1, float, MyTritonKernel);
 class CUDA_MS_OP_TYPED_CLASS_NAME(1, MLFloat16, MyTritonKernel);
+class CUDA_MS_OP_TYPED_CLASS_NAME(1, float, FlashAttentionKernel);
+class CUDA_MS_OP_TYPED_CLASS_NAME(1, MLFloat16, FlashAttentionKernel);
 #endif
 
 
@@ -395,6 +397,8 @@ Status RegisterCudaContribKernels(KernelRegistry& kernel_registry) {
 #ifdef USE_TRITON_KERNEL
     BuildKernelCreateInfo<CUDA_MS_OP_TYPED_CLASS_NAME(1, float, MyTritonKernel)>,
     BuildKernelCreateInfo<CUDA_MS_OP_TYPED_CLASS_NAME(1, MLFloat16, MyTritonKernel)>,
+    BuildKernelCreateInfo<CUDA_MS_OP_TYPED_CLASS_NAME(1, float, FlashAttentionKernel)>,
+    BuildKernelCreateInfo<CUDA_MS_OP_TYPED_CLASS_NAME(1, MLFloat16, FlashAttentionKernel)>,
 #endif
 
 #ifdef ENABLE_TRAINING_OPS

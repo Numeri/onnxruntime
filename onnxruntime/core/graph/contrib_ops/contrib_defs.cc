@@ -3566,6 +3566,24 @@ MatMulBnb4 is a MatMul with weight quantized with 4 bits using either FP4 or NF4
         propagateElemTypeFromInputToOutput(ctx, 0, 0);
         propagateShapeFromInputToOutput(ctx, 0, 0);
       });
+  ONNX_CONTRIB_OPERATOR_SCHEMA(FlashAttentionKernel)
+      .SetDomain(kMSDomain)
+      .SinceVersion(1)
+      .SetSupportLevel(OpSchema::SupportType::EXPERIMENTAL)
+      .SetDoc("FlashAttentionKernel")
+      .Input(0, "Q", "Query tensor.", "T")
+      .Input(1, "K", "Key tensor", "T")
+      .Input(2, "V", "Value tensor", "T")
+      .Input(3, "Bias", "Bias tensor", "T")
+      .Output(0, "Output", "Results of attention", "T")
+      .TypeConstraint(
+          "T",
+          {"tensor(float16)", "tensor(float)"},
+          "Constrain input X type to float tensors.")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+        propagateElemTypeFromInputToOutput(ctx, 0, 0);
+        propagateShapeFromInputToOutput(ctx, 0, 0);
+      });
 #endif
 
 
